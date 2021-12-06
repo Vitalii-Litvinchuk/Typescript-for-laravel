@@ -31,8 +31,8 @@ export interface IUnsetError {
 }
 
 export type ServerAuthError = {
-    email: Array<string>,
-    password: Array<string>,
+    email: string,
+    password: string,
     error: string
 }
 

@@ -10,13 +10,13 @@ export const registerUser = (data: IRegisterModel) => {
             dispatch({ type: AuthActionTypes.REGISTER_AUTH });
             const response = await http.post<IRegisterResponse>("api/auth/register", data);
             dispatch({ type: AuthActionTypes.REGISTER_AUTH_SUCCESS, payload: response.data.user, token: response.data.access_token });
+            return Promise.resolve();
         } catch (error) {
             if (axios.isAxiosError(error)) {
                 const serverError = error as AxiosError<ServerAuthError>;
-                if (serverError && serverError.response)
-                    dispatch({ type: AuthActionTypes.REGISTER_AUTH_ERROR, payload: "Така пошта вже існує." });
-                else
-                    dispatch({ type: AuthActionTypes.REGISTER_AUTH_ERROR, payload: "Спробуйте ще раз." });
+                if (serverError && serverError.response) {
+                    return Promise.reject(serverError.response.data);
+                }
             }
         }
     }

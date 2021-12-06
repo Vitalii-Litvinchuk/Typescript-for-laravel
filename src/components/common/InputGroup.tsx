@@ -1,19 +1,34 @@
-import React from "react";
+import { FC, InputHTMLAttributes } from "react";
+import classNames from 'classnames';
 
-type InputGroupProps = {
+interface InputGroupProps extends InputHTMLAttributes<HTMLInputElement> {
     label: string,
     field: string,
-    type?: string,
-    onChange: (e: React.ChangeEvent<HTMLInputElement>) => void
-};
-
-const InputGroup = ({ label, field, type = 'text', onChange }: InputGroupProps) => {
-    return (
-        <>
-            <label className="form-label" htmlFor={field}>{label}</label>
-            <input type={type} className="form-control" id={field} name={field} placeholder={label} onChange={onChange} />
-        </>
-    );
+    touched?: boolean | null,
+    error?: string | null,
+    type?: "text" | "email" | "password"
+    onChange: (e: React.ChangeEvent<HTMLInputElement>) => void,
 }
+
+const InputGroup: FC<InputGroupProps> = ({ label, field, onChange, touched = null, error = null, type = "text" }: InputGroupProps) => {
+    return (
+        <div className="mb-3">
+            <label htmlFor={field} className="form-label">
+                {label}
+            </label>
+            <input
+                type={type}
+                name={field}
+                className={classNames("form-control",
+                    { "is-invalid": touched && error },
+                    { "is-valid": touched && !error }
+                )}
+                id={field}
+                onChange={onChange}
+            />
+            {(touched && error) && <div className="invalid-feedback">{error}</div>}
+        </div>
+    );
+};
 
 export default InputGroup;
