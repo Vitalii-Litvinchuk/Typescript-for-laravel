@@ -8,12 +8,6 @@ export interface ILoginModel {
 export interface ILoginResponse {
     access_token: string,
     expires_in: number,
-    user: IUser
-}
-
-export interface ILoginResponse {
-    access_token: string,
-    expires_in: number,
     user: IUser,
 };
 
@@ -24,7 +18,6 @@ export interface ILoginAuthAction {
 export interface ILoginAuthSuccessAction {
     type: AuthActionTypes.LOGIN_AUTH_SUCCESS,
     payload: IUser,
-    token: string,
 };
 
 export interface ILoginAuthErrorAction {

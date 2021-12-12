@@ -9,7 +9,7 @@ export const registerUser = (data: IRegisterModel) => {
         try {
             dispatch({ type: AuthActionTypes.REGISTER_AUTH });
             const response = await http.post<IRegisterResponse>("api/auth/register", data);
-            dispatch({ type: AuthActionTypes.REGISTER_AUTH_SUCCESS, payload: response.data.user, token: response.data.access_token });
+            dispatch({ type: AuthActionTypes.REGISTER_AUTH_SUCCESS, payload: response.data.user });
             return Promise.resolve();
         } catch (error) {
             if (axios.isAxiosError(error)) {

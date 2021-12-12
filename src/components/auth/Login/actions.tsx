@@ -3,8 +3,9 @@ import {
 } from './types';
 import { Dispatch } from "react";
 import http from '../../../http_common';
-import { AuthActionTypes, AuthAction, ServerAuthError } from '../../../types/auth';
+import { AuthActionTypes, AuthAction, ServerAuthError, IUser } from '../../../types/auth';
 import axios, { AxiosError } from "axios";
+import jwt from 'jsonwebtoken';
 
 
 export const loginUser = (data: ILoginModel) => {
@@ -12,7 +13,9 @@ export const loginUser = (data: ILoginModel) => {
         try {
             dispatch({ type: AuthActionTypes.LOGIN_AUTH });
             const response = await http.post<ILoginResponse>('api/auth/login', data);
-            dispatch({ type: AuthActionTypes.LOGIN_AUTH_SUCCESS, payload: response.data.user, token: response.data.access_token });
+            const { access_token } = response.data;
+            localStorage.token = access_token;
+            authUser(access_token, dispatch);
             return Promise.resolve();
         }
         catch (error) {
@@ -24,4 +27,14 @@ export const loginUser = (data: ILoginModel) => {
             }
         }
     }
+}
+
+export const authUser = (token: string, dispatch: Dispatch<AuthAction>) => {
+    const user = jwt.decode(token) as IUser;
+    dispatch(
+        {
+            type: AuthActionTypes.LOGIN_AUTH_SUCCESS,
+            payload: user
+        }
+    )
 }

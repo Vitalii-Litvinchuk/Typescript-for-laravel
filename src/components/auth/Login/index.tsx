@@ -38,7 +38,7 @@ const LoginPage: FC = () => {
         } catch (ex) {
             const serverErrors = ex as ServerAuthError;
             setServerErrors(serverErrors);
-            if (serverErrors.password && serverErrors.password.length != 0) {
+            if (serverErrors.password && serverErrors.password.length !== 0) {
                 setFieldError("password", serverErrors.password[0]);
             }
             setIsSubmitted(false);
@@ -57,7 +57,9 @@ const LoginPage: FC = () => {
         return <Navigate to="/" />
     }
 
-    const { errors, touched, handleChange, handleSubmit, setFieldError } = formik;
+    //    const { errors, touched, handleChange, handleSubmit, setFieldError } = formik;
+
+    const { errors, touched, handleChange, handleSubmit } = formik;
 
     return (
         <>

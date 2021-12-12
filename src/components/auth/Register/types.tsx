@@ -20,7 +20,6 @@ export interface IRegisterAuthAction {
 export interface IRegisterAuthSuccessAction {
     type: AuthActionTypes.REGISTER_AUTH_SUCCESS,
     payload: IUser,
-    token: string,
 };
 
 export interface IRegisterAuthErrorAction {

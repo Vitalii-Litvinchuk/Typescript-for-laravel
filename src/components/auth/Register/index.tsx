@@ -58,7 +58,9 @@ const RegisterPage = () => {
         return <Navigate to="/" />
     }
 
-    const { errors, touched, handleChange, handleSubmit, setFieldError } = formik;
+    //   const { errors, touched, handleChange, handleSubmit, setFieldError } = formik;
+
+    const { errors, touched, handleChange, handleSubmit } = formik;
 
     return (
         <>

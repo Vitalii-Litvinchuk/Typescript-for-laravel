@@ -23,7 +23,6 @@ export interface AuthState {
     isAuth: boolean,
     loading: boolean,
     error: null | string,
-    token: string,
 };
 
 export interface IUnsetError {
