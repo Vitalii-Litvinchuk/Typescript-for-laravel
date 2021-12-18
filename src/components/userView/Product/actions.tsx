@@ -1,16 +1,17 @@
 import { Dispatch } from "react"
-import { IProductResponse, ProductAction as ProductActions, ProductActionTypes } from "./types";
-import http from "../../../http_common";
+import { IProductCreateModel, IProductResponse, ProductActions, ProductActionTypes } from "./types";
+import http, { multipartFormData } from "../../../http_common";
 
-export const getAutos = (current_page: number) => {
+export const getAutos = (current_page: number, name: string) => {
     return async (dispatch: Dispatch<ProductActions>) => {
         try {
-            const response = await http.get<IProductResponse>("api/products", { params: { page: current_page } });
+            const response = await http.get<IProductResponse>("api/products", { params: { page: current_page, name: name } });
             const { data } = response.data;
             dispatch({
                 type: ProductActionTypes.GET_AUTOS,
                 products: data,
-                total: response.data.total
+                total: response.data.total,
+                last_page: response.data.last_page,
             });
             return Promise.resolve();
         } catch (ex) {
@@ -42,4 +43,23 @@ export const changePage = (page: number) => {
             return Promise.reject();
         }
     };
+}
+
+export const createProduct = (data: IProductCreateModel) => {
+    return async (dispatch: Dispatch<ProductActions>) => {
+        try {
+            if (data.file) {
+                var formData = new FormData();
+                formData.append("name", data.name);
+                formData.append("detail", data.detail);
+                formData.append("file", data.file);
+                await multipartFormData().post<IProductResponse>("api/products", formData);
+                dispatch({ type: ProductActionTypes.UNLOADED });
+                return Promise.resolve();
+            }
+        } catch (error) {
+            console.log("Problem create product");
+            return Promise.reject();
+        }
+    }
 }

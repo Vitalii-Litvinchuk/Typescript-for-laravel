@@ -24,23 +24,23 @@ const Header = () => {
                         <ul className="navbar-nav me-auto mb-2 mb-lg-0">
                             <li className="nav-item">
                                 <Link className="nav-link" to="/autos">
-                                    Показати авто
+                                    Продукти
                                 </Link>
                             </li>
                             <li className="nav-item">
                                 <Link className="nav-link" to="/auto/create">
-                                    Додати авто
+                                    Додати продукт
                                 </Link>
                             </li>
                         </ul>
                         <ul className="navbar-nav">
                             <li className="nav-item">
-                                <Link className="nav-link btn btn-success px-3 mx-2 rounded-pill text-light" to="/profile">
+                                <Link className="nav-link btn btn-outline-success px-3 mx-2 rounded-pill text-light border-0" to="/profile">
                                     {user?.email}
                                 </Link>
                             </li>
                             <li className="nav-item">
-                                <Link className="nav-link btn btn-danger px-4 mx-2 rounded-pill text-light" to="/logout">
+                                <Link className="nav-link btn btn-outline-danger px-4 mx-2 rounded-pill text-light border-0" to="/logout">
                                     Вихід
                                 </Link>
                             </li>

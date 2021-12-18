@@ -1,3 +1,5 @@
+import { URLSearchParamsInit } from "react-router-dom";
+
 export enum ProductActionTypes {
     GET_AUTOS = "GET_AUTOS",
 
@@ -5,7 +7,17 @@ export enum ProductActionTypes {
 
     CHANGE_PAGE = "CHANGE_PAGE",
 
-    SELECTED_LOADING = "SELECTED_LOADING"
+    SELECTED_LOADING = "SELECTED_LOADING",
+
+    CREATE_PRODUCT = "CREATE_PRODUCT",
+
+    UNLOADED = "UNLOADED"
+}
+
+export interface IProductCreateModel {
+    name: string,
+    detail: string,
+    file?: File,
 }
 
 export interface IProductModel {
@@ -21,12 +33,13 @@ export interface IProductState {
     selected: null | IProductModel,
     selected_loading: boolean,
     current_page: number,
-    total_product: number
+    total_product: number,
+    last_page: number,
 }
 
 export interface IProductResponse {
     current_page: number;
-    from: number;
+    last_page: number;
     total: number,
     product: IProductModel,
     data: Array<IProductModel>,
@@ -40,6 +53,7 @@ export interface IGetProductsAction {
     type: ProductActionTypes.GET_AUTOS,
     products: Array<IProductModel>,
     total: number,
+    last_page: number
 }
 
 export interface ISetSelectedProductAction {
@@ -47,9 +61,28 @@ export interface ISetSelectedProductAction {
     product: IProductModel,
 }
 
-export interface IChangePage {
+export interface IChangePageAction {
     type: ProductActionTypes.CHANGE_PAGE,
     page: number
 }
 
-export type ProductAction = IGetProductsAction | ISetSelectedProductAction | IChangePage | ISelectedLoadingProductAction;
+export interface IUnloadedAction {
+    type: ProductActionTypes.UNLOADED,
+}
+
+export interface IProductSearchAction {
+    page?: null | string | number,
+    name?: null | string
+}
+
+export interface IURL {
+    setSearchParams: (nextInit: URLSearchParamsInit, navigateOptions?: {
+        replace?: boolean | undefined;
+        state?: any;
+    } | undefined) => void,
+    searchValue: IProductSearchAction,
+    setSearchValue: React.Dispatch<React.SetStateAction<IProductSearchAction>>
+}
+
+export type ProductActions = IGetProductsAction | ISetSelectedProductAction | IChangePageAction
+    | ISelectedLoadingProductAction | IUnloadedAction;

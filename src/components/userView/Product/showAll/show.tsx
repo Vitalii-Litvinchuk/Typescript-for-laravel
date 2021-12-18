@@ -29,7 +29,7 @@ const DisplayProduct = ({ id, name, detail, image }: IProductModel) => {
         <>
             <div className="col-4 p-4 design ">
                 <div className="item-box" onClick={onClick}>
-                    <img className="item-container img-fluid" src={image ? image : "https://via.placeholder.com/1920x1080/D3D3D3/000000"} alt="work-img" />
+                    <img className="item-container img-fluid image" src={image ? "http://local.laravel.com/images/" + image : "https://via.placeholder.com/1920x1080/D3D3D3/000000"} alt="work-img" />
                     <div className="item-mask">
                         <div className="item-caption">
                             <h5 className="text-dark mb-0">{name}</h5>

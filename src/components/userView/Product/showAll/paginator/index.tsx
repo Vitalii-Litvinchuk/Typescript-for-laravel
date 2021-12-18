@@ -1,40 +1,75 @@
 import { useActions } from "../../../../../hooks/useActions";
 import { useTypedSelector } from "../../../../../hooks/useTypedSelector";
+import qs from 'qs';
+import { FC, useEffect } from "react";
+import { IProductSearchAction, IURL } from "../../types";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faChevronCircleRight, faChevronCircleLeft } from "@fortawesome/free-solid-svg-icons";
 
-const Paginator = () => {
-    const { total_product, current_page } = useTypedSelector(state => state.product);
+const Paginator: FC<IURL> = ({ setSearchParams, searchValue, setSearchValue }: IURL) => {
+    const { current_page, last_page } = useTypedSelector(state => state.product);
     const { changePage, getAutos } = useActions();
 
-    let items = [];
-    for (let index = 0; index < total_product / 6; index++)
-        items.push(
-            current_page === index + 1 ?
-                (<li className="page-item active"><a className="page-link" onClick={() => { changePage(index + 1); getAutos(index + 1) }}>{index + 1}</a></li>)
-                :
-                (<li className="page-item"><a className="page-link" onClick={() => { changePage(index + 1); getAutos(index + 1) }}>{index + 1}</a></li>)
-        )
+    useEffect(() => {
+        if (searchValue.page) {
+            paginateTo(parseInt(searchValue.page.toString()));
+        }
+    }, [searchValue.page]);
+
+    function paginateTo(page: number) {
+        changePage(page);
+        getAutos(page, searchValue.name ? searchValue.name : "");
+
+        const data: IProductSearchAction = {
+            ...searchValue,
+            page: page,
+        };
+        setSearchValue(data);
+        setSearchParams(qs.stringify(data));
+    }
+
+    const items = [];
+    for (let index = 1; index <= last_page; index++)
+        items.push(index)
 
     return (
-        <nav className="justify-content-center" aria-label="...">
-            <ul className="pagination">
-                {current_page <= 1 ?
-                    (<li className="page-item disabled">
-                        <a className="page-link ">Previous</a>
-                    </li>)
-                    :
-                    (<li className="page-item">
-                        <a className="page-link" onClick={() => { changePage(current_page - 1); getAutos(current_page - 1) }}>Previous</a>
-                    </li>)
+        <nav aria-label="...">
+            <ul className="pagination justify-content-center">
+                {
+                    current_page <= 1 ?
+                        (<li className="page-item disabled">
+                            <a className="page-link border-0">
+                                <FontAwesomeIcon icon={faChevronCircleLeft} />
+                            </a>
+                        </li>)
+                        :
+                        (<li className="page-item">
+                            <a className="page-link border-0" onClick={() => paginateTo(current_page - 1)} >
+                                <FontAwesomeIcon icon={faChevronCircleLeft} />
+                            </a>
+                        </li>)
                 }
-                {items}
-                {current_page >= total_product / 6 ?
-                    (<li className="page-item disabled">
-                        <a className="page-link ">Next</a>
-                    </li>)
-                    :
-                    (<li className="page-item">
-                        <a className="page-link" onClick={() => { changePage(current_page + 1); getAutos(current_page + 1) }}>Next</a>
-                    </li>)
+                {items.map((item, key) => {
+                    return (
+                        current_page === item ?
+                            (<li className="page-item active" key={key}><a className="page-link rounded-3">{item}</a></li>)
+                            :
+                            (<li className="page-item" key={key}><a className="page-link" onClick={() => paginateTo(item)}>{item}</a></li>)
+                    )
+                })}
+                {
+                    current_page >= last_page ?
+                        (<li className="page-item disabled">
+                            <a className="page-link border-0">
+                                <FontAwesomeIcon icon={faChevronCircleRight} />
+                            </a>
+                        </li>)
+                        :
+                        (<li className="page-item">
+                            <a className="page-link border-0" onClick={() => paginateTo(current_page + 1)} >
+                                <FontAwesomeIcon icon={faChevronCircleRight} />
+                            </a>
+                        </li>)
                 }
             </ul>
         </nav >
