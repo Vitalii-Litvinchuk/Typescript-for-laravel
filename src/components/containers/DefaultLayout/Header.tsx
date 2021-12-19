@@ -47,7 +47,7 @@ const Header = () => {
                         </ul>
                     </>
                     ) : (
-                        <ul className="navbar-nav">
+                        <ul className="navbar-nav ms-auto">
                             <li className="nav-item">
                                 <Link className="nav-link" to="/register">
                                     Реєстрація

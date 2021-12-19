@@ -11,10 +11,8 @@ const Paginator: FC<IURL> = ({ setSearchParams, searchValue, setSearchValue }: I
     const { changePage, getAutos } = useActions();
 
     useEffect(() => {
-        if (searchValue.page) {
-            paginateTo(parseInt(searchValue.page.toString()));
-        }
-    }, [searchValue.page]);
+        searchValue.page ? paginateTo(parseInt(searchValue.page.toString())) : console.log();
+    }, []);
 
     function paginateTo(page: number) {
         changePage(page);

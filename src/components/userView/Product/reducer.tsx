@@ -3,11 +3,13 @@ import { IProductState, ProductActions, ProductActionTypes } from "./types";
 const initialState: IProductState = {
     products: null,
     loaded: false,
+    deleted: false,
+    changed: false,
     selected: null,
     current_page: 1,
     total_product: 0,
     selected_loading: false,
-    last_page: 0
+    last_page: 0,
 }
 
 export const productReducer = (state = initialState, action: ProductActions) => {
@@ -19,6 +21,8 @@ export const productReducer = (state = initialState, action: ProductActions) => 
                 total_product: action.total,
                 last_page: action.last_page,
                 loaded: true,
+                deleted: false,
+                changed: false,
             }
         case ProductActionTypes.SET_SELECTED:
             return {
@@ -41,6 +45,16 @@ export const productReducer = (state = initialState, action: ProductActions) => 
             return {
                 ...state,
                 loaded: false,
+            }
+        case ProductActionTypes.DELETED:
+            return {
+                ...state,
+                deleted: true,
+            }
+        case ProductActionTypes.CHANGED:
+            return {
+                ...state,
+                changed: true,
             }
         default: return state;
     }

@@ -53,10 +53,23 @@ export const createProduct = (data: IProductCreateModel) => {
                 formData.append("name", data.name);
                 formData.append("detail", data.detail);
                 formData.append("file", data.file);
-                await multipartFormData().post<IProductResponse>("api/products", formData);
+                await multipartFormData().post("api/products", formData);
                 dispatch({ type: ProductActionTypes.UNLOADED });
                 return Promise.resolve();
             }
+        } catch (error) {
+            console.log("Problem create product");
+            return Promise.reject();
+        }
+    }
+}
+
+export const deleteProduct = (id: number) => {
+    return async (dispatch: Dispatch<ProductActions>) => {
+        try {
+            await http.delete(`api/products/${id}`);
+            dispatch({ type: ProductActionTypes.DELETED });
+            return Promise.resolve();
         } catch (error) {
             console.log("Problem create product");
             return Promise.reject();

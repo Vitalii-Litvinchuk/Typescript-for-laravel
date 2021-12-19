@@ -1,3 +1,4 @@
+import qs from "qs";
 import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { useActions } from "../../../../hooks/useActions";
@@ -8,13 +9,8 @@ import SearchBox from "./searchBox";
 import DisplayProduct from "./show";
 
 const AllProducts = () => {
-    const { loaded, products, current_page } = useTypedSelector(state => state.product);
+    const { loaded, deleted, changed, products, current_page } = useTypedSelector(state => state.product);
     const { getAutos } = useActions();
-
-    useEffect(() => {
-        if (!loaded)
-            getAutos(current_page, "");
-    }, []);
 
     const [searchParams, setSearchParams] = useSearchParams();
 
@@ -23,8 +19,20 @@ const AllProducts = () => {
         name: searchParams.get("name"),
     });
 
+    useEffect(() => {
+        if (!loaded && !searchValue.page)
+            getAutos(current_page, "");
+        if (deleted) {
+            let name = "";
+            if (searchValue.name)
+                name = searchValue.name;
 
-    if (!loaded) {
+            getAutos(current_page, name);
+        }
+
+    }, [loaded, deleted, changed]);
+
+    if (!loaded && !searchValue.page) {
         return (
             <>
                 <h2 className="text-center mt-3">Завантаження...</h2>

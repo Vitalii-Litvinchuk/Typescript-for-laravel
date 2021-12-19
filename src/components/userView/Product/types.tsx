@@ -11,7 +11,13 @@ export enum ProductActionTypes {
 
     CREATE_PRODUCT = "CREATE_PRODUCT",
 
-    UNLOADED = "UNLOADED"
+    UNLOADED = "UNLOADED",
+
+    DELETE_PRODUCT = "DELETE_PRODUCT",
+
+    DELETED = "DELETED",
+
+    CHANGED = "CHANGED",
 }
 
 export interface IProductCreateModel {
@@ -30,6 +36,8 @@ export interface IProductModel {
 export interface IProductState {
     products: null | Array<IProductModel>,
     loaded: boolean,
+    deleted: boolean,
+    changed: boolean,
     selected: null | IProductModel,
     selected_loading: boolean,
     current_page: number,
@@ -70,6 +78,14 @@ export interface IUnloadedAction {
     type: ProductActionTypes.UNLOADED,
 }
 
+export interface IDeletedAction {
+    type: ProductActionTypes.DELETED,
+}
+
+export interface IChangedAction {
+    type: ProductActionTypes.CHANGED,
+}
+
 export interface IProductSearchAction {
     page?: null | string | number,
     name?: null | string
@@ -85,4 +101,4 @@ export interface IURL {
 }
 
 export type ProductActions = IGetProductsAction | ISetSelectedProductAction | IChangePageAction
-    | ISelectedLoadingProductAction | IUnloadedAction;
+    | ISelectedLoadingProductAction | IUnloadedAction | IDeletedAction | IChangedAction;
