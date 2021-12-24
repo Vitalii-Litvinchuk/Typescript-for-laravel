@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React, { FC, useState } from "react";
 import { Link } from "react-router-dom";
 import { useActions } from "../../../../hooks/useActions";
 import { useTypedSelector } from "../../../../hooks/useTypedSelector";
@@ -12,7 +12,9 @@ const EditProduct: FC = () => {
 
     const { editProduct } = useActions();
 
-    const { selected, changed } = useTypedSelector(state => state.product);
+    const { selected } = useTypedSelector(state => state.product);
+
+    const [isChanged, setIsChanged] = useState(false);
 
     if (!selected)
         return (
@@ -36,10 +38,11 @@ const EditProduct: FC = () => {
 
     const onSubmit = (e: any) => {
         editProduct(selected.id, data);
+        setIsChanged(true);
     }
     return (
         <>
-            {changed ? (<ModalInfo body='Успішно зміненно!' bodyClass='text-center' />) : <></>}
+            {isChanged ? (<ModalInfo body='Успішно зміненно!' bodyClass='text-center' onClick={() => setIsChanged(false)} onHide={() => setIsChanged(false)} />) : <></>}
             <div className="row">
                 <h1 className="text-center">Редагувати продукт</h1>
                 <div className="row justify-content-center align-items-center">

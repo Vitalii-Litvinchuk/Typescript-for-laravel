@@ -87,7 +87,6 @@ export const editProduct = (id: number, data: IProductChangeModel) => {
                 formData.append("detail", data.detail);
             if (data.file)
                 formData.append("file", data.file);
-            console.log(data);
             await multipartFormData().post(`api/products/${id}`, formData);
             dispatch({ type: ProductActionTypes.CHANGED });
             return Promise.resolve();
