@@ -1,4 +1,3 @@
-import qs from "qs";
 import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { useActions } from "../../../../hooks/useActions";
@@ -22,7 +21,7 @@ const AllProducts = () => {
     useEffect(() => {
         if (!loaded && !searchValue.page)
             getAutos(current_page, "");
-        if (deleted) {
+        if (deleted || changed) {
             let name = "";
             if (searchValue.name)
                 name = searchValue.name;

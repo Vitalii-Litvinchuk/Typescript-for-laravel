@@ -1,10 +1,10 @@
+import { faEdit } from "@fortawesome/free-regular-svg-icons";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useState } from "react";
 import { useNavigate } from "react-router";
-import { useSearchParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useActions } from "../../../../hooks/useActions";
-import { IProductModel, IProductSearchAction } from "../types";
+import { IProductModel } from "../types";
 
 const maxDetailSymbols = 100;
 
@@ -24,12 +24,15 @@ const DisplayProduct = ({ id, name, detail, image }: IProductModel) => {
             else break;
         }
 
-    function onClick() {
+    function onShowClick() {
         setSelected(id);
-        navigator("/auto");
     }
 
-    function deleteClick(id: number) {
+    function onEditClick() {
+        setSelected(id);
+    }
+
+    function deleteClick() {
         deleteProduct(id);
     }
 
@@ -37,19 +40,22 @@ const DisplayProduct = ({ id, name, detail, image }: IProductModel) => {
         <>
             <div className="col-4 p-4 design ">
                 <div className="item-box">
-                    <img className="item-container img-fluid image" src={image ? "http://local.laravel.com/images/" + image : "https://via.placeholder.com/1920x1080/D3D3D3/000000"} alt="work-img" />
+                    <img className="item-container img-fluid image" src={image && image !== "" ? "http://local.laravel.com/images/" + image : "https://via.placeholder.com/1920x1080/D3D3D3/000000"} alt="" />
                     <div className="item-mask">
                         <div className="container mt-2" >
                             <div className="row justify-content-end">
-                                <div className="btn btn-outline-danger col-2" onClick={() => deleteClick(id)}>
+                                <Link className="btn btn-outline-warning col-2 me-2" to="/product/edit" onClick={onEditClick}>
+                                    <FontAwesomeIcon icon={faEdit} />
+                                </Link>
+                                <div className="btn btn-outline-danger col-2" onClick={deleteClick}>
                                     <FontAwesomeIcon icon={faTimes} />
                                 </div>
                             </div>
                         </div>
-                        <div className="item-caption" onClick={onClick}>
+                        <Link className="item-caption" to="/product" onClick={onShowClick}>
                             <h5 className="text-dark mb-0">{name}</h5>
                             <p className="text-dark mt-1">{detailShow}</p>
-                        </div>
+                        </Link>
                     </div>
                 </div>
             </div>

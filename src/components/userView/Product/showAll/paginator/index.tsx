@@ -7,7 +7,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronCircleRight, faChevronCircleLeft } from "@fortawesome/free-solid-svg-icons";
 
 const Paginator: FC<IURL> = ({ setSearchParams, searchValue, setSearchValue }: IURL) => {
-    const { current_page, last_page } = useTypedSelector(state => state.product);
+    const { current_page, last_page, total_product } = useTypedSelector(state => state.product);
     const { changePage, getAutos } = useActions();
 
     useEffect(() => {
@@ -27,8 +27,25 @@ const Paginator: FC<IURL> = ({ setSearchParams, searchValue, setSearchValue }: I
     }
 
     const items = [];
-    for (let index = 1; index <= last_page; index++)
-        items.push(index)
+    const totalPages = last_page;
+    if (totalPages > 10) {
+        let number = current_page <= 2 ? 1 : current_page - 2;
+        if (current_page + 8 > totalPages) {
+            for (let index = totalPages - 10; index <= totalPages; index++)
+                items.push(index);
+        } else
+            for (let index = number; index <= totalPages; index++) {
+                if (index === 10 + number) {
+                    items.push(last_page);
+                    break;
+                }
+                items.push(index);
+            }
+    }
+    else
+        for (let index = 1; index <= last_page; index++)
+            items.push(index);
+
 
     return (
         <nav aria-label="...">
@@ -52,7 +69,14 @@ const Paginator: FC<IURL> = ({ setSearchParams, searchValue, setSearchValue }: I
                         current_page === item ?
                             (<li className="page-item active" key={key}><a className="page-link rounded-3">{item}</a></li>)
                             :
-                            (<li className="page-item" key={key}><a className="page-link" onClick={() => paginateTo(item)}>{item}</a></li>)
+                            // Problem: Each child in a list should have a unique "key" prop.
+                            (
+                                <>
+                                    <li className="page-item" key={key}><a className="page-link" onClick={() => paginateTo(item)}>{item}</a></li>
+                                    {(item + 1 < last_page && key === 9) ?
+                                        <li className="page-item" key={key + 2}><a className="page-link" onClick={() => paginateTo(item + 1)}>...</a></li> : <></>}
+                                </>
+                            )
                     )
                 })}
                 {

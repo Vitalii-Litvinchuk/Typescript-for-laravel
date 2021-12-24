@@ -1,5 +1,5 @@
 import { Dispatch } from "react"
-import { IProductCreateModel, IProductResponse, ProductActions, ProductActionTypes } from "./types";
+import { IProductChangeModel, IProductCreateModel, IProductResponse, ProductActions, ProductActionTypes } from "./types";
 import http, { multipartFormData } from "../../../http_common";
 
 export const getAutos = (current_page: number, name: string) => {
@@ -69,6 +69,27 @@ export const deleteProduct = (id: number) => {
         try {
             await http.delete(`api/products/${id}`);
             dispatch({ type: ProductActionTypes.DELETED });
+            return Promise.resolve();
+        } catch (error) {
+            console.log("Problem create product");
+            return Promise.reject();
+        }
+    }
+}
+
+export const editProduct = (id: number, data: IProductChangeModel) => {
+    return async (dispatch: Dispatch<ProductActions>) => {
+        try {
+            var formData = new FormData();
+            if (data.name)
+                formData.append("name", data.name);
+            if (data.detail)
+                formData.append("detail", data.detail);
+            if (data.file)
+                formData.append("file", data.file);
+            console.log(data);
+            await multipartFormData().post(`api/products/${id}`, formData);
+            dispatch({ type: ProductActionTypes.CHANGED });
             return Promise.resolve();
         } catch (error) {
             console.log("Problem create product");

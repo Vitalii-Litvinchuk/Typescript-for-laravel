@@ -6,14 +6,14 @@ const ShowProduct = () => {
     const { selected, selected_loading } = useTypedSelector(state => state.product);
 
     if (!selected_loading && !selected) {
-        return <Navigate to="/autos" />
+        return <Navigate to="/products" />
     }
     return (
         <>
             <div className="row">
                 {selected ? (<>
                     <div className="row">
-                        <Link to="/autos" className="btn btn-success rounded-2 col-1 p-2">Назад</Link>
+                        <Link to="/products" className="btn btn-success rounded-2 col-1 p-2">Назад</Link>
                     </div >
                     <div>
                         <img className="item-container img-fluid col-4" src={selected.image ? "http://local.laravel.com/images/" + selected.image : "https://via.placeholder.com/1920x1080/D3D3D3/000000"} alt="https://via.placeholder.com/1920x1080/D3D3D3/000000" />

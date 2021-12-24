@@ -26,6 +26,12 @@ export interface IProductCreateModel {
     file?: File,
 }
 
+export interface IProductChangeModel {
+    name?: string,
+    detail?: string,
+    file?: File,
+}
+
 export interface IProductModel {
     id: number,
     name: string,

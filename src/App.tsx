@@ -11,6 +11,7 @@ import AllProducts from './components/userView/Product/showAll';
 import { useTypedSelector } from './hooks/useTypedSelector';
 import ShowProduct from './components/userView/Product/showProduct';
 import CreateProduct from './components/userView/Product/Create';
+import EditProduct from './components/userView/Product/Edit';
 
 function App() {
   const { isAuth } = useTypedSelector(state => state.auth);
@@ -24,9 +25,10 @@ function App() {
           {isAuth ?
             <>
               <Route path="/profile" element={<ProfilePage />}></Route>
-              <Route path="/autos" element={<AllProducts />}></Route>
-              <Route path="/auto" element={<ShowProduct />}></Route>
-              <Route path="/auto/create" element={<CreateProduct />}></Route>
+              <Route path="/products" element={<AllProducts />}></Route>
+              <Route path="/product" element={<ShowProduct />}></Route>
+              <Route path="/product/create" element={<CreateProduct />}></Route>
+              <Route path="/product/edit" element={<EditProduct />}></Route>
             </> : <></>
           }
           <Route path="*" element={<NoMatch />}></Route>

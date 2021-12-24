@@ -23,12 +23,12 @@ const Header = () => {
                     {isAuth ? (<>
                         <ul className="navbar-nav me-auto mb-2 mb-lg-0">
                             <li className="nav-item">
-                                <Link className="nav-link" to="/autos">
+                                <Link className="nav-link" to="/products">
                                     Продукти
                                 </Link>
                             </li>
                             <li className="nav-item">
-                                <Link className="nav-link" to="/auto/create">
+                                <Link className="nav-link" to="/product/create">
                                     Додати продукт
                                 </Link>
                             </li>
