@@ -6,7 +6,6 @@ import { IProductCreateModel } from '../types';
 import { useActions } from '../../../../hooks/useActions';
 import ModalInfo from '../../../modal';
 import { ProductSchema } from './validation';
-import { Link } from 'react-router-dom';
 
 const CreateProduct: FC = () => {
     const [created, setCreated] = useState(false);

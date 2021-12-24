@@ -7,14 +7,14 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronCircleRight, faChevronCircleLeft } from "@fortawesome/free-solid-svg-icons";
 
 const Paginator: FC<IURL> = ({ setSearchParams, searchValue, setSearchValue }: IURL) => {
-    const { current_page, last_page, total_product } = useTypedSelector(state => state.product);
+    const { current_page, last_page } = useTypedSelector(state => state.product);
     const { changePage, getAutos } = useActions();
 
     useEffect(() => {
         searchValue.page ? paginateTo(parseInt(searchValue.page.toString())) : console.log();
     }, []);
 
-    function paginateTo(page: number) {
+    const paginateTo = (page: number) => {
         changePage(page);
         getAutos(page, searchValue.name ? searchValue.name : "");
 
@@ -31,15 +31,15 @@ const Paginator: FC<IURL> = ({ setSearchParams, searchValue, setSearchValue }: I
     if (totalPages > 10) {
         let number = current_page <= 2 ? 1 : current_page - 2;
         if (current_page + 8 > totalPages) {
-            for (let index = totalPages - 10; index <= totalPages; index++)
-                items.push(index);
+            for (let pagePagin = totalPages - 10; pagePagin <= totalPages; pagePagin++)
+                items.push(pagePagin);
         } else
-            for (let index = number; index <= totalPages; index++) {
-                if (index === 10 + number) {
+            for (let pagePagin = number; pagePagin <= totalPages; pagePagin++) {
+                if (pagePagin === 10 + number) {
                     items.push(last_page);
                     break;
                 }
-                items.push(index);
+                items.push(pagePagin);
             }
     }
     else

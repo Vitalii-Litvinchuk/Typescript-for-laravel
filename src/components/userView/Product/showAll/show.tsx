@@ -1,7 +1,6 @@
 import { faEdit } from "@fortawesome/free-regular-svg-icons";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useNavigate } from "react-router";
 import { Link } from "react-router-dom";
 import { useActions } from "../../../../hooks/useActions";
 import { IProductModel } from "../types";
@@ -9,7 +8,6 @@ import { IProductModel } from "../types";
 const maxDetailSymbols = 100;
 
 const DisplayProduct = ({ id, name, detail, image }: IProductModel) => {
-    const navigator = useNavigate();
     let detailWords = detail.split(' ');
 
     let detailShow = "";

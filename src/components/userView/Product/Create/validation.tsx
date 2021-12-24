@@ -7,6 +7,6 @@ export const ProductSchema = object({
     detail: string()
         .required("Вкажіть деталі"),
 
-    file: string()
+    file: string().nullable()
         .required("Виберіть фото"),
 });
